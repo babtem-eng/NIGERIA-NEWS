@@ -1,0 +1,24 @@
+{
+  "name": "Naija News Hub",
+  "short_name": "NaijaNews",
+  "description": "Real-time aggregated news from top Nigerian newspapers including Vanguard, Punch, The Nation, and Premium Times.",
+  "start_url": "/",
+  "id": "/",
+  "display": "standalone",
+  "background_color": "#0m0d13",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

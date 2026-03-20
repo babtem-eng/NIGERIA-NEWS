@@ -1,10 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import NewsCard from './NewsCard';
+import ProductCard from './ProductCard';
 
 export default function NewsFeed() {
   const [news, setNews] = useState([]);
+  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedSource, setSelectedSource] = useState('All');
@@ -28,7 +30,20 @@ export default function NewsFeed() {
       }
     }
 
+    async function fetchProducts() {
+      try {
+        const res = await fetch('/api/products');
+        const data = await res.json();
+        if (data.success && data.products) {
+          setProducts(data.products);
+        }
+      } catch (err) {
+        console.error('Failed to load products', err);
+      }
+    }
+
     fetchNews();
+    fetchProducts();
   }, []);
 
   if (loading) {
@@ -156,9 +171,20 @@ export default function NewsFeed() {
         </div>
       ) : (
         <div className="news-grid">
-          {filteredNews.map((item) => (
-            <NewsCard key={item.id} article={item} />
-          ))}
+          {filteredNews.map((item, index) => {
+            const showProduct = (index + 1) % 3 === 0 && products.length > 0;
+            const productIndex = Math.floor(index / 3) % products.length;
+            const product = showProduct ? products[productIndex] : null;
+
+            return (
+              <Fragment key={item.id}>
+                <NewsCard article={item} />
+                {showProduct && product && (
+                  <ProductCard product={product} />
+                )}
+              </Fragment>
+            );
+          })}
         </div>
       )}
     </div>
